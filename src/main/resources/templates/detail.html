@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title th:text= "${movie.Name}">  </title>
+        <!-- Favicon-->
+		<link rel="icon" type="image/jpg" href="https://img.tinyzonetv.to/xxrz/250x400/202/dd/31/dd31428b33327f67777839b4339f1079/dd31428b33327f67777839b4339f1079.jpg" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link th:href="@{/css/card.css}" type="text/css" rel="stylesheet"/>
+        <link th:href="@{/css/stype.css}" type="text/css" rel="stylesheet"/>
+   		<script src="https://code.jquery.com/jquery-3.4.1.js"> </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&family=Sen:wght@400;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">      
+      <style>
+      .profile-container{
+			margin-left: 30rem;
+		}
+		.v-container{
+			display: flex;
+  			justify-content: center;
+		}
+		body{
+			background-color: black;
+		}
+      </style>
+    </head>
+    <body>
+
+    <div class="navbar">
+        <div class="navbar-container">
+            <div class="logo-container">
+                <h1 class="logo">Web movie</h1>
+            </div>
+            <div class="menu-container">
+                <ul class="menu-list">
+                    <li class="menu-list-item active"><a th:href="@{/home}"> Home</a></li>
+                    <li class="menu-list-item">Movies</li>
+                    <li class="menu-list-item">Series</li>
+                    <li class="menu-list-item">Popular</li>
+                    <li class="menu-list-item">Trends</li>
+                    <li class="menu-list-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                    <a th:href="@{/admin}">AD</a>
+					</li>
+                </ul>               
+            </div>
+            <!--ProfileB-->
+<!--            <div class="menu-container">
+					<form th:action="@{/search}">
+					    <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
+					    
+					    <input type="submit" class="btn btn-primary" value="Search" />
+					</form>
+            </div>-->
+				          
+            <div class="profile-container">
+                <ul>
+            		<li style="list-style: none;" sec:authorize="isAnonymous()" class="menu-list-item active"><a th:href="@{/login}"> Login</a></li>
+            	</ul>
+                <div class="profile-text-container" sec:authorize="isAuthenticated()">
+                    <div class="profile-text" sec:authentication="name">
+				    	Welcome <b>Username</b>
+				    </div>
+				    <!--<i><span sec:authentication="principal.authorities">Roles</span></i>-->
+					<a th:href="@{/logout}">Logout</a>
+                </div>
+
+                <div class="toggle">
+                    <i class="fas fa-moon toggle-icon"></i>
+                    <i class="fas fa-sun toggle-icon"></i>
+                    <div class="toggle-ball"></div>
+                </div>
+            </div>
+            <!--ProfileE-->
+        </div>     
+    </div>
+
+
+        <!-- Product section-->
+        <div class="b-container">
+
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-4"><br><img class="card-img-top mb-5 mb-md-0" th:src="*{'data:image/jpeg;base64,'+{movie.Image}}" alt="..." /></div>
+                    <div class="col-md-6">
+                    		<br>
+                    	<h1 class="display-5 fw-bolder" th:text= "${movie.Name}"> </h1>	
+                    	<div class="fs-5 mb-5">
+                            <button class="btn btn-light flex-shrink-0" type="button">
+                                <i class="fas fa-video me-1"></i>
+                                Trailer
+                            </button>
+                            <button class="btn btn-yellow flex-shrink-0" type="button">
+                                Imdb 8.6
+                            </button>
+                        </div> 
+                   
+                        <div class="fs-5 mb-5">
+                            <span> Duration: 25 min</span>
+                            <span>Released: 2014-08-22</span>
+                        </div>
+                       
+                        <p class="lead" th:text= "${movie.Description}"> </p>
+                        <div class="d-flex">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                            <button class="btn btn-red flex-shrink-0" type="button">
+                                <i class="fa fa-play"></i><a th:href="${movie.linkFilm}"> Watch now </a>
+                            </button>
+                            <button class="btn btn-light flex-shrink-0" type="button">
+                                <i class="fa fa-plus"></i>
+                                <a style="color:red" th:href="@{/home/watch-tv/{n}-{id}(n=${movie.Name},id=${movie.id})}">
+                                 Add favourite</a>
+                            </button>
+                    </div>
+                </div>
+                <br>
+		        <div class="v-container ">
+					<iframe width="800" height="400"
+					src="https://www.youtube.com/embed/tgbNymZ7vqY">
+					</iframe>
+				</div>
+				      	<div class="fs-5 mb-5 v-container">
+                            <button class="btn btn-light flex-shrink-0" type="button">
+                                <i class="fab fa-twitter"></i>
+                                Twitter
+                            </button>
+                            <button class="btn btn-primary flex-shrink-0" type="button">
+                            <i class="fab fa-facebook"></i>
+                                FaceBook
+                            </button>
+                            <button class="btn btn-red flex-shrink-0" type="button">
+                            <i class="fab fa-google"></i>
+                                Google
+                            </button>                            
+                        </div>
+            </div>
+        <!-- Related items section-->
+           <div class="container px-4 px-lg-5 mt-5">
+            <h1 class="movie-list-title">You may also like</h1>                 
+            <div class="movie-list-container">               
+                <div class="movie-list-wrapper">
+                    <div class="movie-list">
+	                    <div th:each="movie:${listM}">
+	                        <div class="movie-list-item">
+	                            <img class="movie-list-item-img" th:src="*{'data:image/jpeg;base64,'+{movie.Image}}" alt="">
+	                            <span class="movie-list-item-title" th:text= "${movie.Name}" > </span>
+	                            <div>
+	                             <a th:href="@{/home/detail/{id}(id=${movie.id})}" class=" movie-list-item-button">Watch </a> 
+	                            </div>
+	                        </div>
+	                    </div>
+                    </div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+            </div>   
+           </div>
+           <div th:insert="~{footer :: footer}">...</div> 
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

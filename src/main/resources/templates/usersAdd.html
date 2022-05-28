@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Movie web</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+	<h1>Usr management</h1>
+	<hr>
+	<h2>Save User</h2>
+	<form action="#" th:action="@{/admin/users/add}" th:object="${userDTO}" method="POST"
+	enctype="multipart/form-data">
+	<input type="hidden" th:field="*{id}"/>
+		UserName: <input type="text" name="name" th:field="*{Username}"  class="form-control mb-4 col-4">			
+		Email: <input type="text" name="des" th:field="*{Email}"  class="form-control mb-4 col-4">
+		Password:<input type="text" name="linkf" th:field="*{Password}" class="form-control mb-4 col-4">
+
+		 <br/>
+            <div class="form-group">
+                <label for="category">Select Role</label>
+                <select class="form-control" th:field="*{roleid}" id="role" name="role">
+                    <option th:each="role :${roles}"
+                            th:value="${role.id}"
+                            th:text="${role.name}">
+                </select>
+            </div>			
+		<button type="submit" class="btn btn-info col-2">Add User</button>
+	
+	</form>
+	<hr>
+	<a th:href="@{/}">Back</a>
+</div>
+
+
+</body>
+</html>

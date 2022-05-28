@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Movie web</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+</head>
+<body>
+
+<div  class="container my-2">
+	<h1>Movie list</h1>
+		<a th:href = "@{admin/showNewMovieForm}" class="btn btn-primary btn-sm mb-3"> Add New Movie </a>
+	<table border="1" class= "table table-striped">
+	<thead>
+	<tr>
+		<th>Movie name</th>
+		<th>Movie description</th>
+		<th>Movie img</th>
+		<th>Category</th>
+		<th>Action</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr th:each="movie: ${listMovies}">
+		<td th:text= "${movie.Name}"></td>
+		<td th:text= "${movie.Description}"></td>
+		<td scope="row"><img alt="" th:src="*{'data:image/jpeg;base64,'+{movie.Image}}" style="width: 100px;height: 100px;"></td>
+		<td th:text= "${movie.Category.Name}"></td>
+		<td> <a th:href="@{admin/showFormForUpdate/{id}(id=${movie.id})}" class="btn btn-primary">Update</a>		
+		<td> <a th:href="@{admin/deleteMovie/{id}(id=${movie.id})}" class="btn btn-danger">Delete</a>			
+	</tr>
+	</tbody>
+	</table>
+	<div> <a th:href="@{/home}" class="btn btn-primary btn-sm mb-3"> Home</a></div>
+	<br>
+	<div> <a th:href="@{/admin/category}" class="btn btn-primary btn-sm mb-3"> Category</a></div>
+	<br>
+	<div> <a th:href="@{/admin/users}" class="btn btn-primary btn-sm mb-3"> Manager User</a></div>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link th:href="@{/css/stype.css}" type="text/css" rel="stylesheet"/>
+	<link th:href="@{/css/main.css}" type="text/css" rel="stylesheet"/>
+   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&family=Sen:wght@400;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+    <title>Movie Web</title>
+    <style>
+    	
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="navbar-container">
+            <div class="logo-container">
+                <h1 class="logo">Web movie</h1>
+            </div>
+            <div class="menu-container">
+                <ul class="menu-list">
+                    <li class="menu-list-item active"><a th:href="@{/home}"> Home</a></li>
+                    <li class="menu-list-item">Movies</li>
+                    <li class="menu-list-item">Series</li>
+                    <li class="menu-list-item">Popular</li>
+                    <li class="menu-list-item">Trends</li>
+                    <li class="menu-list-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                    <a th:href="@{/admin}">AD</a>
+					</li>
+                </ul>               
+            </div>
+            <!--ProfileB-->
+            <div class="menu-container">
+					<form th:action="@{/search}">
+					    <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
+					    &nbsp;
+					    <input type="submit" class="btn btn-primary" value="Search" />
+					</form>
+            </div>
+				          
+            <div class="profile-container">
+                <ul>
+            		<li style="list-style: none;" sec:authorize="isAnonymous()" class="menu-list-item active"><a th:href="@{/login}"> Login</a></li>
+            	</ul>
+<!--                <img class="profile-picture" src="img/profile.jpg" alt="">-->
+                <div class="profile-text-container" sec:authorize="isAuthenticated()">
+                    <div class="profile-text" sec:authentication="name">
+				    	Welcome <b>Username</b>
+				    </div>
+
+<!--                    <i class="fas fa-caret-down"></i>-->
+				<a th:href="@{/logout}">Logout</a>
+                </div>
+
+                <div class="toggle">
+                    <i class="fas fa-moon toggle-icon"></i>
+                    <i class="fas fa-sun toggle-icon"></i>
+                    <div class="toggle-ball"></div>
+                </div>
+            </div>
+            <!--ProfileE-->
+        </div>     
+    </div>
+      </div>
+    
+    <div class="container">
+        <div class="content-container">
+        
+                 <div class="col l-1 m-0 c-0">
+                </div>     
+        
+        <div class="col l-11 m-12 c-12">
+                    
+            <div class="movie-list-container">
+                <h1 class="movie-list-title">Category " <span th:text= "${cate.name}" > </span> "</h1>                
+                <div class="movie-list-wrapper">
+                    <div class="movie-list">
+	                    <div th:each="movie:${listMovies}">
+	                        <div class="movie-list-item">
+	                            <img class="movie-list-item-img" th:src="*{'data:image/jpeg;base64,'+{movie.Image}}" alt="">
+	                            <span class="movie-list-item-title" th:text= "${movie.Name}" > </span>
+	                            <div>
+	                             <a th:href="@{/home/watch/{n}-{id}(n=${movie.Name},id=${movie.id})}" class=" movie-list-item-button">Watch </a> 
+	                            </div>
+	                        </div>
+	                    </div>
+                    </div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+            </div>
+            <div class="featured-content"
+                style="background: linear-gradient(to bottom, rgba(0,0,0,0), #151515), url('img/f-1.jpg');">
+                <img class="featured-title" src="img/f-t-1.png" alt="">
+                <p class="featured-desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto illo dolor
+                    deserunt nam assumenda ipsa eligendi dolore, ipsum id fugiat quo enim impedit, laboriosam omnis
+                    minima voluptatibus incidunt. Accusamus, provident.</p>
+                <button class="featured-button">WATCH</button>
+            </div>
+
+        </div>
+     </div>
+        <div th:insert="~{footer :: footer}">...</div>  
+    </div>
+    <script src="js/app.js"></script> 
+</body>
+
+</html>

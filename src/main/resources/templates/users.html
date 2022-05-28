@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Movie web</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+</head>
+<body>
+
+<div  class="container my-2">
+	<h1>Manager User</h1>
+		<a th:href = "@{/admin/users/add}" class="btn btn-primary btn-sm mb-3"> Add New User </a>
+	<table border="1" class= "table table-striped">
+	<thead>
+	<tr>
+		<th>Username</th>
+		<th>User Email</th>
+		<th>User password</th>
+		<th>Role</th>
+		<th>Action</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr th:each="user: ${users}">
+		<td th:text= "${user.Username}"></td>
+		<td th:text= "${user.Email}"></td>
+		<td th:text= "${user.Password}"></td>
+		<td >
+		        <select class="form-control" id="role" name="role">
+		                    <option th:each="role :${user.roles}"
+                            th:value="${role.id}"
+                            th:text="${role.name}">
+                </select>
+		</td>
+		<td> <a th:href="@{/admin/users/update/{id}(id=${user.id})}" class="btn btn-primary">Update</a>		
+		<td> <a th:href="@{/admin/users/delete/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>			
+	</tr>
+	</tbody>
+	</table>
+	<div> <a th:href="@{/home}" class="btn btn-primary btn-sm mb-3"> Home</a></div>
+	<br>
+	<div> <a th:href="@{/admin/category}" class="btn btn-primary btn-sm mb-3"> Category</a></div>
+	<br>
+</div>
